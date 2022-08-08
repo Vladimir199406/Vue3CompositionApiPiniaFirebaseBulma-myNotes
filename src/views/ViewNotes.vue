@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <Note v-for="note in notes" :key="note.id" :note="note" />
+    <Note v-for="note in notes" :key="note.id" :note="note" @deleteClicked="deleteNote" />
   </div>
 </template>
 
@@ -35,9 +35,8 @@
 import { ref } from "vue";
 import Note from "@/components/Notes/Note.vue";
 /*
- notes
+ data
 */
-
 const newNote = ref("");
 const newNoteRef = ref(null);
 
@@ -53,6 +52,9 @@ const notes = ref([
   },
 ]);
 
+/*
+ methods
+*/
 const addNote = () => {
   const currentDate = new Date().getTime().toString();
   const note = {
@@ -63,5 +65,9 @@ const addNote = () => {
 
   newNote.value = "";
   newNoteRef.value.focus();
+};
+
+const deleteNote = (idToDelete) => {
+  notes.value = notes.value.filter((note) => note.id !== idToDelete);
 };
 </script>
