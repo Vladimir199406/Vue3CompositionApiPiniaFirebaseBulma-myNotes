@@ -1,30 +1,17 @@
 <template>
   <div class="notes">
-    <div class="card has-background-success-dark p-4 mb-5">
-      <div class="field">
-        <div class="control">
-          <textarea
-            v-model="newNote"
-            class="textarea"
-            placeholder="Add a new Note"
-            ref="newNoteRef"
-          ></textarea>
-        </div>
-      </div>
-
-      <div class="field is-grouped is-grouped-right">
-        <div class="control">
-          <button
-            @click="addNote"
-            :disabled="!newNote"
-            class="button is-link has-background-success"
-          >
-            Add New Note
-          </button>
-        </div>
-      </div>
-    </div>
-    <Note v-for="note in notes" :key="note.id" :note="note" @deleteClicked="deleteNote" />
+    <AddEditNote v-model="newNote" ref="addEditNoteRef">
+      <template #buttons>
+        <button
+          @click="addNote"
+          :disabled="!newNote"
+          class="button is-link has-background-success"
+        >
+          Add New Note
+        </button></template
+      >
+    </AddEditNote>
+    <Note v-for="note in storeNotes.notes" :key="note.id" :note="note" />
   </div>
 </template>
 
@@ -33,41 +20,32 @@
  imports
 */
 import { ref } from "vue";
-import Note from "@/components/Notes/Note.vue";
+import Note from "@/components/notes/Note.vue";
+import AddEditNote from "@/components/notes/AddEditNote.vue";
+import { useStoreNotes } from "@/stores/storeNotes";
 /*
  data
 */
 const newNote = ref("");
-const newNoteRef = ref(null);
-
-const notes = ref([
-  {
-    id: "id1",
-    content:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quisreprehenderit, sequi sed ut velit praesentium accusamus quam autem illo odithic? Dolores, iure. Eligendi minus ratione facilis error iste. ",
-  },
-  {
-    id: "id2",
-    content: "gdhfghfghfgh.  iste.",
-  },
-]);
-
+const addEditNoteRef = ref(null);
+/*
+ store
+*/
+const storeNotes = useStoreNotes();
 /*
  methods
 */
 const addNote = () => {
-  const currentDate = new Date().getTime().toString();
-  const note = {
-    id: currentDate,
-    content: newNote.value,
-  };
-  notes.value.push(note);
-
+  storeNotes.addNote(newNote.value);
   newNote.value = "";
-  newNoteRef.value.focus();
+  addEditNoteRef.value.focusTextarea();
 };
 
 const deleteNote = (idToDelete) => {
   notes.value = notes.value.filter((note) => note.id !== idToDelete);
 };
+/*
+ emits
+*/
+const emit = defineEmits(["update:modelValue"]);
 </script>
