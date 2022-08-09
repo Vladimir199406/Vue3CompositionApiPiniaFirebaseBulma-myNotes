@@ -1,6 +1,6 @@
 <template>
   <div class="notes">
-    <AddEditNote v-model="newNote">
+    <AddEditNote v-model="newNote" ref="addEditNoteRef">
       <template #buttons>
         <button
           @click="addNote"
@@ -27,7 +27,7 @@ import { useStoreNotes } from "@/stores/storeNotes";
  data
 */
 const newNote = ref("");
-const newNoteRef = ref(null);
+const addEditNoteRef = ref(null);
 /*
  store
 */
@@ -38,6 +38,7 @@ const storeNotes = useStoreNotes();
 const addNote = () => {
   storeNotes.addNote(newNote.value);
   newNote.value = "";
+  addEditNoteRef.value.focusTextarea();
 };
 
 const deleteNote = (idToDelete) => {
