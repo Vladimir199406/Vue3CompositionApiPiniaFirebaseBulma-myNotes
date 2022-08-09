@@ -1,29 +1,16 @@
 <template>
   <div class="notes">
-    <div class="card has-background-success-dark p-4 mb-5">
-      <div class="field">
-        <div class="control">
-          <textarea
-            v-model="newNote"
-            class="textarea"
-            placeholder="Add a new Note"
-            ref="newNoteRef"
-          ></textarea>
-        </div>
-      </div>
-
-      <div class="field is-grouped is-grouped-right">
-        <div class="control">
-          <button
-            @click="addNote"
-            :disabled="!newNote"
-            class="button is-link has-background-success"
-          >
-            Add New Note
-          </button>
-        </div>
-      </div>
-    </div>
+    <AddEditNote v-model="newNote">
+      <template #buttons>
+        <button
+          @click="addNote"
+          :disabled="!newNote"
+          class="button is-link has-background-success"
+        >
+          Add New Note
+        </button></template
+      >
+    </AddEditNote>
     <Note v-for="note in storeNotes.notes" :key="note.id" :note="note" />
   </div>
 </template>
@@ -33,7 +20,8 @@
  imports
 */
 import { ref } from "vue";
-import Note from "@/components/Notes/Note.vue";
+import Note from "@/components/notes/Note.vue";
+import AddEditNote from "@/components/notes/AddEditNote.vue";
 import { useStoreNotes } from "@/stores/storeNotes";
 /*
  data
@@ -50,6 +38,13 @@ const storeNotes = useStoreNotes();
 const addNote = () => {
   storeNotes.addNote(newNote.value);
   newNote.value = "";
-  newNoteRef.value.focus();
 };
+
+const deleteNote = (idToDelete) => {
+  notes.value = notes.value.filter((note) => note.id !== idToDelete);
+};
+/*
+ emits
+*/
+const emit = defineEmits(["update:modelValue"]);
 </script>
