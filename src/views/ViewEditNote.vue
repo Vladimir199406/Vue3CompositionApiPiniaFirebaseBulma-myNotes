@@ -8,7 +8,7 @@
       label="Edit a Note"
     >
       <template #buttons>
-        <button @click.prevent="$router.back()" class="mx-2 button is-link is-light">
+        <button @click.prevent="goPrevRoute" class="mx-2 button is-link is-light">
           Cancel
         </button>
         <button
@@ -27,14 +27,15 @@
 /*
  imports
 */
-import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { ref, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import AddEditNote from "@/components/notes/AddEditNote.vue";
 import { useStoreNotes } from "@/stores/storeNotes";
 /*
  router
 */
 const route = useRoute();
+const router = useRouter();
 
 /*
  store
@@ -45,11 +46,20 @@ const storeNotes = useStoreNotes();
  data
 */
 const noteContent = ref("");
+
+/*
+ computed
+*/
+const goPrevRoute = computed(() => {
+  return router.back();
+});
+
 /*
  methods
 */
 const handleSaveClicked = () => {
   storeNotes.updateNote(route.params.id, noteContent.value);
+  router.push("/");
 };
 /*
  other logic

@@ -25,10 +25,20 @@
         :class="{ 'is-active': showMobileNav }"
       >
         <div class="navbar-end">
-          <RouterLink class="navbar-item" to="/" active-class="is-active">
+          <RouterLink
+            @click="showMobileNav = false"
+            class="navbar-item"
+            to="/"
+            active-class="is-active"
+          >
             Notes
           </RouterLink>
-          <RouterLink class="navbar-item" to="/stats" active-class="is-active">
+          <RouterLink
+            @click="showMobileNav = false"
+            class="navbar-item"
+            to="/stats"
+            active-class="is-active"
+          >
             Stats
           </RouterLink>
         </div>
@@ -43,7 +53,10 @@
   */
 import { ref } from "vue";
 
-const showMobileNav = ref(false);
+/*
+ data
+*/
+let showMobileNav = ref(false);
 </script>
 
 <style>
