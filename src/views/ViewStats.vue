@@ -18,6 +18,14 @@
         </tr>
       </tbody>
     </table>
+    <input
+      type="text"
+      class="input"
+      placeholder="Your opinion"
+      v-autofocus
+      v-model="opinion"
+      maxlength="100"
+    />
   </div>
 </template>
 
@@ -25,10 +33,23 @@
 /*
  imports
 */
+import { ref } from "vue";
 import { useStoreNotes } from "@/stores/storeNotes";
+import { vAutofocus } from "@/directives/vAutoFocus";
+import { useWatchCharacters } from "@/use/useWatchCharacters";
+
+/*
+ data
+*/
+const opinion = ref("");
 
 /*
  store
 */
 const storeNotes = useStoreNotes();
+
+/*
+ watchers
+*/
+useWatchCharacters(opinion, 50);
 </script>

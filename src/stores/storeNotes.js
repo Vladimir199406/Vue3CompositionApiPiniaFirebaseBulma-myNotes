@@ -7,7 +7,7 @@ export const useStoreNotes = defineStore('storeNotes', {
         {
           id: "id1",
           content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quisreprehenderit, sequi sed ut velit praesentium accusamus quam autem illo odithic? Dolores, iure. Eligendi minus ratione facilis error iste. ",
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
         },
         {
           id: "id2",
