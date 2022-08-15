@@ -12,10 +12,11 @@
       <RouterLink href="#" class="card-footer-item" :to="`/edit-note/${note.id}`"
         >Edit</RouterLink
       >
-      <a href="#" class="card-footer-item" @click.prevent="storeNotes.deleteNote(note.id)"
+      <a href="#" class="card-footer-item" @click.prevent="modal.deleteNote = true"
         >Delete</a
       >
     </footer>
+    <ModalDelete v-if="modal.deleteNote" v-model="modal.deleteNote" />
   </div>
 </template>
 
@@ -23,12 +24,20 @@
 /*
   imports
 */
-import { computed } from "@vue/runtime-core";
+import { computed, reactive, ref } from "@vue/runtime-core";
 import { useStoreNotes } from "@/stores/storeNotes";
+import ModalDelete from "./ModalDelete.vue";
 /*
  store
 */
 const storeNotes = useStoreNotes();
+
+/*
+ data
+*/
+const modal = reactive({
+  deleteNote: false,
+});
 
 /*
  props
