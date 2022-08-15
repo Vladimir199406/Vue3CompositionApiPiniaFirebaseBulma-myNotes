@@ -16,7 +16,7 @@
         >Delete</a
       >
     </footer>
-    <ModalDelete v-if="modal.deleteNote" v-model="modal.deleteNote" />
+    <ModalDelete v-if="modal.deleteNote" v-model="modal.deleteNote" :noteId="note.id" />
   </div>
 </template>
 
