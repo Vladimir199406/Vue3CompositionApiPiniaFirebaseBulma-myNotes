@@ -22,7 +22,7 @@
 /*
  imports
 */
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
 
 /*
@@ -51,6 +51,21 @@ const emit = defineEmits(["update:modelValue"]);
 const closeModal = () => {
   emit("update:modelValue", false);
 };
+
+const handleKeyboardExitModal = (e) => {
+  e.key === "Escape" && closeModal();
+};
+
+/*
+ hooks
+*/
+onMounted(() => {
+  document.addEventListener("keyup", handleKeyboardExitModal);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keyup", handleKeyboardExitModal);
+});
 
 /*
  other logic
