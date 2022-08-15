@@ -23,6 +23,7 @@ import { ref } from "vue";
 import Note from "@/components/notes/Note.vue";
 import AddEditNote from "@/components/notes/AddEditNote.vue";
 import { useStoreNotes } from "@/stores/storeNotes";
+import { useWatchCharacters } from "@/use/useWatchCharacters";
 /*
  data
 */
@@ -48,4 +49,9 @@ const deleteNote = (idToDelete) => {
  emits
 */
 const emit = defineEmits(["update:modelValue"]);
+
+/*
+ watchers
+*/
+useWatchCharacters(newNote);
 </script>
