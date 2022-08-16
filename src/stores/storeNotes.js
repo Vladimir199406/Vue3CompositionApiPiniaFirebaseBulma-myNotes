@@ -7,11 +7,11 @@ export const useStoreNotes = defineStore('storeNotes', {
         {
           id: "id1",
           content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            "First test note. Good Work!",
         },
         {
           id: "id2",
-          content: "gdhfghfghfgh.  iste.",
+          content: "Hello, Visitor!",
         },
       ],
     }
