@@ -1,6 +1,9 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc, query, orderBy  } from "firebase/firestore";
 import { db } from '@/js/firebase';
+
+const notesCollectionRef = collection(db, 'notes');
+const notesCollectionQuery = query(notesCollectionRef, orderBy("id", "desc"));
 
 export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
@@ -12,29 +15,33 @@ export const useStoreNotes = defineStore('storeNotes', {
   },
   actions: {
     async getNotes() {
-      const querySnapshot = await getDocs(collection(db, "notes"));
-      querySnapshot.forEach((doc) => {
-        const note = {
-          id: doc.id,
-          content: doc.data().content
-        }
-        this.notes.push(note)
+      onSnapshot(notesCollectionQuery, (querySnapshot) => {
+        let storeNotes = [];
+        querySnapshot.forEach((doc) => {
+          const note = {
+            id: doc.id,
+            content: doc.data().content
+          }
+          storeNotes.push(note)
+          this.notes = storeNotes;
+        }); 
       });
     },
-    addNote(newNoteContent) {
+    async addNote(newNoteContent) {
       const currentDate = new Date().getTime().toString();
-      const note = {
-        id: currentDate,
+      await setDoc(doc(notesCollectionRef, currentDate), {
         content: newNoteContent,
-      };
-      this.notes.unshift(note);
+        id: currentDate
+      });
     },
-    deleteNote(idToDelete) {
-      this.notes = this.notes.filter((note) => note.id !== idToDelete);
+    async deleteNote(idToDelete) {
+      await deleteDoc(doc(notesCollectionRef, idToDelete));
     },
-    updateNote(id, content) {
-      const index = this.notes.findIndex(note => note.id === id);
-      this.notes[index].content = content;
+    async updateNote(id, content) {
+      const docRef = doc(notesCollectionRef, id);
+      await updateDoc(docRef, {
+        content: content
+      });
     }
   },
   getters: {
