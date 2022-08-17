@@ -1,6 +1,8 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, doc, setDoc } from "firebase/firestore";
 import { db } from '@/js/firebase';
+
+const notesCollectionRef = collection(db, 'notes');
 
 export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
@@ -12,7 +14,7 @@ export const useStoreNotes = defineStore('storeNotes', {
   },
   actions: {
     async getNotes() {
-      onSnapshot(collection(db, 'notes'), (querySnapshot) => {
+      onSnapshot(notesCollectionRef, (querySnapshot) => {
         let storeNotes = [];
         querySnapshot.forEach((doc) => {
           const note = {
@@ -24,13 +26,11 @@ export const useStoreNotes = defineStore('storeNotes', {
         }); 
       });
     },
-    addNote(newNoteContent) {
+    async addNote(newNoteContent) {
       const currentDate = new Date().getTime().toString();
-      const note = {
-        id: currentDate,
+      await setDoc(doc(notesCollectionRef, currentDate), {
         content: newNoteContent,
-      };
-      this.notes.unshift(note);
+      });
     },
     deleteNote(idToDelete) {
       this.notes = this.notes.filter((note) => note.id !== idToDelete);
