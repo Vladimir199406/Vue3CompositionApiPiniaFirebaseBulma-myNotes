@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from '@/js/firebase';
 
 export const useStoreNotes = defineStore('storeNotes', {
@@ -12,13 +12,16 @@ export const useStoreNotes = defineStore('storeNotes', {
   },
   actions: {
     async getNotes() {
-      const querySnapshot = await getDocs(collection(db, "notes"));
-      querySnapshot.forEach((doc) => {
-        const note = {
-          id: doc.id,
-          content: doc.data().content
-        }
-        this.notes.push(note)
+      onSnapshot(collection(db, 'notes'), (querySnapshot) => {
+        let storeNotes = [];
+        querySnapshot.forEach((doc) => {
+          const note = {
+            id: doc.id,
+            content: doc.data().content
+          }
+          storeNotes.push(note)
+          this.notes = storeNotes;
+        }); 
       });
     },
     addNote(newNoteContent) {
