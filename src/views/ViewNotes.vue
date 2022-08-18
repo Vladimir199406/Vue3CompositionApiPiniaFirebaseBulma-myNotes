@@ -20,6 +20,12 @@
 
     <template v-else>
       <Note v-for="note in storeNotes.notes" :key="note.id" :note="note" />
+      <div
+        class="is-size-4 has-text-centered has-text-grey-light is-family-monospace py-6"
+        v-if="!storeNotes.notes.length"
+      >
+        Notes list is empty
+      </div>
     </template>
   </div>
 </template>
