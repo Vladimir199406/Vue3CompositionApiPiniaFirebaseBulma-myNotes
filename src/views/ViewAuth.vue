@@ -13,12 +13,25 @@
     <div class="card auth-form">
       <div class="card-content">
         <div class="title has-text-centered">{{ formTitle }}</div>
-        <div class="content">
-          Lorem ipsum leo risus, porta ac consectetur ac, vestibulum at eros. Donec id
-          elit non mi porta gravida at eget metus. Cum sociis natoque penatibus et magnis
-          dis parturient montes, nascetur ridiculus mus. Cras mattis consectetur purus sit
-          amet fermentum.
-        </div>
+        <form>
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input class="input" type="email" placeholder="e.g. example@gmail.com" />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" placeholder="Enter a password" />
+            </div>
+          </div>
+          <div class="field is-grouped is-grouped-right">
+            <p class="control">
+              <button class="button is-primary">{{ formTitle }}</button>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   </div>
