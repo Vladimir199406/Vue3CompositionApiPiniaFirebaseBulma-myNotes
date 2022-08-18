@@ -13,17 +13,27 @@
     <div class="card auth-form">
       <div class="card-content">
         <div class="title has-text-centered">{{ formTitle }}</div>
-        <form>
+        <form @submit.prevent="onSubmit">
           <div class="field">
             <label class="label">Email</label>
             <div class="control">
-              <input class="input" type="email" placeholder="e.g. example@gmail.com" />
+              <input
+                class="input"
+                type="email"
+                placeholder="e.g. example@gmail.com"
+                v-model="credentials.email"
+              />
             </div>
           </div>
           <div class="field">
             <label class="label">Password</label>
             <div class="control">
-              <input class="input" type="password" placeholder="Enter a password" />
+              <input
+                class="input"
+                type="password"
+                placeholder="Enter a password"
+                v-model="credentials.password"
+              />
             </div>
           </div>
           <div class="field is-grouped is-grouped-right">
@@ -41,7 +51,20 @@
 /*
  imports
 */
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
+
+/*
+ data
+*/
+const register = ref(false);
+
+//TODO:moc valid flag below
+const flagValid = ref(true);
+
+const credentials = reactive({
+  email: "",
+  password: "",
+});
 
 /*
  computed
@@ -53,7 +76,18 @@ const formTitle = computed(() => {
 /*
  methods
 */
-const register = ref(false);
+// PROTO moc method below
+const onSubmit = () => {
+  if (!flagValid) {
+    console.log("TODO: add normal validation");
+  } else {
+    if (register.value) {
+      console.log("TODO: REGISTER A USER", credentials);
+    } else {
+      console.log("TODO: LOG IN", credentials);
+    }
+  }
+};
 </script>
 <style>
 .auth-form {
