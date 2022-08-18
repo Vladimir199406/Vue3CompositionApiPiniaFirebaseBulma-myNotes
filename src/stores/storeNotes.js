@@ -26,10 +26,9 @@ export const useStoreNotes = defineStore('storeNotes', {
             date: doc.data().date
           }
           storeNotes.push(note)
-          this.notes = storeNotes;
-          this.notesLoaded = true;
-
         });
+        this.notes = storeNotes;
+        this.notesLoaded = true;
       });
     },
     async addNote(newNoteContent) {
