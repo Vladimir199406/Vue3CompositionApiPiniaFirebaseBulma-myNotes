@@ -52,19 +52,22 @@
  imports
 */
 import { ref, computed, reactive } from "vue";
+import { useStoreAuth } from "@/stores/storeAuth";
 
 /*
  data
 */
 const register = ref(false);
 
-//TODO:moc valid flag below
-const flagValid = ref(true);
-
 const credentials = reactive({
   email: "",
   password: "",
 });
+
+/*
+ store
+*/
+const storeAuth = useStoreAuth();
 
 /*
  computed
@@ -78,11 +81,11 @@ const formTitle = computed(() => {
 */
 // PROTO moc method below
 const onSubmit = () => {
-  if (!flagValid) {
+  if (!credentials.email || !credentials.password) {
     console.log("TODO: add normal validation");
   } else {
     if (register.value) {
-      console.log("TODO: REGISTER A USER", credentials);
+      storeAuth.registerUser(credentials);
     } else {
       console.log("TODO: LOG IN", credentials);
     }
