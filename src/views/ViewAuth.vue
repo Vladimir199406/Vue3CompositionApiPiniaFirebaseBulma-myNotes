@@ -87,7 +87,7 @@ const onSubmit = () => {
     if (register.value) {
       storeAuth.registerUser(credentials);
     } else {
-      console.log("TODO: LOG IN", credentials);
+      storeAuth.loginUser(credentials);
     }
   }
 };
