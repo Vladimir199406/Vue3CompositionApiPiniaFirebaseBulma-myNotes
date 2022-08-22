@@ -1,43 +1,62 @@
-import { defineStore } from 'pinia'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { auth } from '@/js/firebase'
+import { defineStore } from "pinia";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth } from "@/js/firebase";
 
-
-
-
-export const useStoreAuth = defineStore('storeAuth', {
+export const useStoreAuth = defineStore("storeAuth", {
   state: () => {
-
+    return {
+      user: {},
+    }
   },
   actions: {
+    init() {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user.id = user.uid;
+          this.user.email = user.email;
+        } else {
+          this.user = {};
+        }
+      });
+    },
     registerUser(credentials) {
-      createUserWithEmailAndPassword(auth, credentials.email, credentials.password)
+      createUserWithEmailAndPassword(
+        auth,
+        credentials.email,
+        credentials.password
+      )
         .then((userCredential) => {
-            const user = userCredential.user;
-            console.log('User: ', user);
-          })
+          const user = userCredential.user;
+          console.log("User: ", user);
+        })
         .catch((error) => {
-            console.log('Error: ', error);
-          });
+          console.log("Error: ", error);
+        });
     },
     logoutUser() {
-      signOut(auth).then(() => {
-        console.log('User signed out')
-      }).catch((error) => {
-        console.log("Error: ", error.message);
-      });
+      signOut(auth)
+        .then(() => {
+          console.log("User signed out");
+        })
+        .catch((error) => {
+          console.log("Error: ", error.message);
+        });
     },
     loginUser(credentials) {
       signInWithEmailAndPassword(auth, credentials.email, credentials.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log('User: ', user)
+          console.log("User: ", user);
         })
         .catch((error) => {
-          console.log('Error: ', error.message);
+          console.log("Error: ", error.message);
         });
     },
   },
   getters: {},
-})
-
+});
