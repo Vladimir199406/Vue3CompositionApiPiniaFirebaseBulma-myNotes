@@ -27,8 +27,12 @@
         ref="navBarMenuRef"
       >
         <div class="navbar-start">
-          <button @click="storeAuth.logoutUser" class="button is-small is-info mt-3 ml-3">
-            Log out
+          <button
+            v-if="storeAuth.user.id"
+            @click="logout"
+            class="button is-small is-info mt-3 ml-3"
+          >
+            LOG OUT {{ storeAuth.user.email }}
           </button>
         </div>
         <div class="navbar-end">
@@ -73,6 +77,14 @@ const navbarBurgerRef = ref(null);
  store
 */
 const storeAuth = useStoreAuth();
+
+/*
+ methods
+*/
+const logout = () => {
+  showMobileNav.value = false;
+  storeAuth.logoutUser();
+};
 
 /*
  other logic
