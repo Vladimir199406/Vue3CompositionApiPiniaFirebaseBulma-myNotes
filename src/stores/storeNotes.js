@@ -6,6 +6,8 @@ import { useStoreAuth } from "@/stores/storeAuth";
 let notesCollectionRef;
 let notesCollectionQuery;
 
+let getNotesSnapshot = null;
+
 export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
     return {
@@ -25,7 +27,10 @@ export const useStoreNotes = defineStore('storeNotes', {
     },
     async getNotes() {
       this.notesLoaded = false;
-      onSnapshot(notesCollectionQuery, (querySnapshot) => {
+
+      getNotesSnapshot && getNotesSnapshot();
+
+      getNotesSnapshot = onSnapshot(notesCollectionQuery, (querySnapshot) => {
         let storeNotes = [];
         querySnapshot.forEach((doc) => {
           const note = {
@@ -55,7 +60,10 @@ export const useStoreNotes = defineStore('storeNotes', {
       await updateDoc(docRef, {
         content: content
       });
-    }
+    },
+    clearNotes() {
+      this.notes = [];
+    },
   },
   getters: {
     getNoteContent: (state) => {
