@@ -34,7 +34,7 @@
 /*
  imports
 */
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import Note from "@/components/notes/Note.vue";
 import AddEditNote from "@/components/notes/AddEditNote.vue";
 import { useStoreNotes } from "@/stores/storeNotes";
@@ -64,13 +64,6 @@ const deleteNote = (idToDelete) => {
  emits
 */
 const emit = defineEmits(["update:modelValue"]);
-
-/*
- mounted
-*/
-onMounted(() => {
-  storeNotes.getNotes();
-});
 
 /*
  watchers
